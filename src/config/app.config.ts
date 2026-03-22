@@ -10,7 +10,7 @@
 export const APP_CONFIG = {
   // ── App Identity ───────────────────────────────────────────
   // Change this to rename the app everywhere
-  appName: 'הורים כשותפים',
+  appName: 'שותפים להורות',
   appNameEn: 'Parents as Partners',
 
   // ── Participants ───────────────────────────────────────────
