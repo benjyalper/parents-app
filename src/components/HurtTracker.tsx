@@ -196,17 +196,14 @@ export default function HurtTracker() {
                   className="bg-white rounded-2xl shadow-soft p-6 flex flex-col items-center gap-3"
                 >
                   <p className="font-semibold text-calm-700 text-lg">{p.name}</p>
-                  <div className="flex flex-wrap justify-center gap-1.5 min-h-[28px]">
+                  <div className="flex items-center justify-center gap-2 min-h-[28px]">
                     {count === 0 ? (
                       <span className="text-calm-300 text-sm">—</span>
                     ) : (
-                      Array.from({ length: count }).map((_, i) => (
-                        <span
-                          key={i}
-                          className="w-5 h-5 rounded-full bg-red-400 shadow-sm inline-block"
-                          title={`${i + 1}`}
-                        />
-                      ))
+                      <>
+                        <span className="w-5 h-5 rounded-full bg-red-400 shadow-sm inline-block shrink-0" />
+                        <span className="text-red-400 font-bold text-xl">×{count}</span>
+                      </>
                     )}
                   </div>
                   <p className="text-calm-400 text-xs">
