@@ -79,6 +79,16 @@ export default function HurtTracker() {
   const [formError, setFormError]   = useState('');
   const [formSuccess, setFormSuccess] = useState(false);
 
+  // Editable reframe suggestion — auto-updates when text changes, but user can edit it
+  const [reframeText, setReframeText] = useState('');
+  useEffect(() => {
+    if (text.trim()) {
+      setReframeText(getReframeSuggestion(text, language));
+    } else {
+      setReframeText('');
+    }
+  }, [text, language]);
+
   // Modal state
   const [selectedEntry, setSelectedEntry] = useState<HurtEntry | null>(null);
 
@@ -130,6 +140,7 @@ export default function HurtTracker() {
       setText('');
       setWriterId('');
       setTargetId('');
+      setReframeText('');
       setFormSuccess(true);
       setTimeout(() => setFormSuccess(false), 3000);
     } catch {
@@ -261,19 +272,22 @@ export default function HurtTracker() {
                   </p>
                 </div>
 
-                {/* Reframe suggestion panel */}
+                {/* Reframe suggestion — editable textarea */}
                 <div className="bg-primary-50 border border-primary-100 rounded-xl p-4 flex flex-col gap-2">
                   <p className="text-xs font-semibold text-primary-600">
                     {language === 'he' ? 'אפשר להגיד את זה ככה...' : 'You could say it like this...'}
                   </p>
-                  <p className="text-xs text-primary-700 leading-relaxed">
-                    {text.trim()
-                      ? getReframeSuggestion(text, language)
-                      : language === 'he'
+                  <textarea
+                    value={reframeText}
+                    onChange={(e) => setReframeText(e.target.value)}
+                    placeholder={
+                      language === 'he'
                         ? 'הקלד כמה מילים ונציע ניסוח עדין יותר...'
-                        : 'Start typing and we\'ll suggest a gentler way to say it...'
+                        : "Start typing and we'll suggest a gentler way..."
                     }
-                  </p>
+                    rows={4}
+                    className="text-xs text-primary-700 leading-relaxed bg-transparent resize-none focus:outline-none focus:ring-1 focus:ring-primary-300 rounded-lg px-1 placeholder:text-primary-300 w-full"
+                  />
                 </div>
               </div>
 
