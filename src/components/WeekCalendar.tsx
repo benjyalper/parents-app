@@ -4,7 +4,11 @@ import { useMemo } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { getHoliday } from '@/lib/hebrew-calendar';
 
-export default function WeekCalendar() {
+interface WeekCalendarProps {
+  dark?: boolean; // true = glass style for hero background
+}
+
+export default function WeekCalendar({ dark = false }: WeekCalendarProps) {
   const { t, isRTL } = useLanguage();
 
   const { days, todayIndex } = useMemo(() => {
@@ -42,16 +46,16 @@ export default function WeekCalendar() {
 
   return (
     <div
-      className="bg-white rounded-2xl shadow-soft px-4 py-3"
+      className={`rounded-2xl px-4 py-3 ${dark ? 'bg-white/15 backdrop-blur-sm border border-white/20' : 'bg-white shadow-soft'}`}
       dir={isRTL ? 'rtl' : 'ltr'}
       aria-label={t.calendar.title}
     >
-      <p className="text-xs text-calm-500 uppercase tracking-widest mb-2 text-center">
+      <p className={`text-xs uppercase tracking-widest mb-2 text-center ${dark ? 'text-white/60' : 'text-calm-500'}`}>
         {t.calendar.title}
       </p>
 
       <div className="grid grid-cols-7 gap-1">
-        {days.map((day, i) => (
+        {days.map((day) => (
           <div
             key={day.dateStr}
             className={`
@@ -59,28 +63,23 @@ export default function WeekCalendar() {
               transition-colors duration-150
               ${day.isToday
                 ? 'bg-calm-700 text-white shadow-soft'
-                : 'text-calm-700 hover:bg-calm-50'
+                : dark ? 'text-white/80 hover:bg-white/10' : 'text-calm-700 hover:bg-calm-50'
               }
             `}
           >
             {/* Day letter/name */}
-            <span className={`text-xs font-semibold ${day.isToday ? 'text-white/80' : 'text-calm-500'}`}>
+            <span className={`text-xs font-semibold ${day.isToday ? 'text-white/80' : dark ? 'text-white/60' : 'text-calm-500'}`}>
               {t.calendar.days[day.dayOfWeek]}
             </span>
 
             {/* Date number */}
-            <span className={`text-base font-bold leading-tight ${day.isToday ? 'text-white' : ''}`}>
+            <span className={`text-base font-bold leading-tight ${day.isToday ? 'text-white' : dark ? 'text-white' : ''}`}>
               {day.dateNum}
             </span>
 
             {/* Holiday badge */}
             {day.holiday && (
-              <span
-                className={`
-                  text-[9px] leading-tight mt-0.5 text-center font-medium
-                  ${day.isToday ? 'text-yellow-200' : 'text-primary-500'}
-                `}
-              >
+              <span className={`text-[9px] leading-tight mt-0.5 text-center font-medium ${day.isToday ? 'text-yellow-200' : dark ? 'text-yellow-300' : 'text-primary-500'}`}>
                 {isRTL ? day.holiday.nameHe : day.holiday.nameEn}
               </span>
             )}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
+import WeekCalendar from './WeekCalendar';
 
 interface DailyContent {
   saying: {
@@ -37,11 +38,16 @@ export default function HeroSection() {
       });
   }, []);
 
+  // Fallback saying shown before DB loads or if DB is unavailable
+  const fallbackSaying = language === 'he'
+    ? 'ילד זוכר איך גרמו לו להרגיש'
+    : 'A child remembers how you made them feel';
+
   const sayingText = daily?.saying
     ? language === 'he'
       ? daily.saying.textHe
       : daily.saying.textEn
-    : null;
+    : fallbackSaying;
 
   const imageAlt = daily?.image
     ? language === 'he'
@@ -66,12 +72,12 @@ export default function HeroSection() {
         alt={imageAlt || 'רקע'}
         fill
         priority
-        className="object-cover"
+        className="object-cover object-center"
         sizes="100vw"
       />
 
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-black/50" />
+      {/* Dark overlay for readability — 30% opacity */}
+      <div className="absolute inset-0 bg-black/30" />
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-2xl mx-auto">
@@ -83,46 +89,30 @@ export default function HeroSection() {
           {t.tagline}
         </p>
 
-        {loading && (
-          <p className="text-white/60 text-sm animate-pulse">{t.loading}</p>
-        )}
+        {/* Saying card — always visible, shows fallback until DB loads */}
+        <div className="
+          bg-white/15 backdrop-blur-sm
+          rounded-2xl px-8 py-6
+          border border-white/20
+          shadow-modal
+        ">
+          <p className="text-white/50 text-xs uppercase tracking-widest mb-3">
+            {t.home.sayingOfTheDay}
+          </p>
+          <h3 className="text-white text-xl md:text-2xl font-medium leading-relaxed">
+            &ldquo;{sayingText}&rdquo;
+          </h3>
+          {daily?.saying?.author && (
+            <p className="text-white/60 text-sm mt-3">
+              — {t.home.by} {daily.saying.author}
+            </p>
+          )}
+        </div>
 
-        {error && (
-          <p className="text-white/60 text-sm">{t.error}</p>
-        )}
-
-        {!loading && !error && (
-          <div className="space-y-6">
-            {/* Picture of the day label */}
-            {daily?.image && (
-              <p className="text-white/60 text-xs uppercase tracking-widest">
-                {t.home.pictureOfTheDay}
-              </p>
-            )}
-
-            {/* Saying card */}
-            {sayingText && (
-              <div className="
-                bg-white/15 backdrop-blur-sm
-                rounded-2xl px-8 py-6
-                border border-white/20
-                shadow-modal
-              ">
-                <p className="text-white/50 text-xs uppercase tracking-widest mb-3">
-                  {t.home.sayingOfTheDay}
-                </p>
-                <blockquote className="text-white text-xl md:text-2xl font-medium leading-relaxed">
-                  &ldquo;{sayingText}&rdquo;
-                </blockquote>
-                {daily?.saying?.author && (
-                  <p className="text-white/60 text-sm mt-3">
-                    — {t.home.by} {daily.saying.author}
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-        )}
+        {/* Weekly calendar — always visible */}
+        <div className="mt-6">
+          <WeekCalendar dark />
+        </div>
       </div>
     </section>
   );

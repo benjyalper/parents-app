@@ -15,6 +15,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { APP_CONFIG } from '@/config/app.config';
 import Modal from './ui/Modal';
+import WeekCalendar from './WeekCalendar';
 
 // ── Types ─────────────────────────────────────────────────────
 
@@ -159,6 +160,9 @@ export default function HurtTracker() {
         <h1 className="text-2xl font-bold text-calm-800">{t.hurt.pageTitle}</h1>
         <p className="text-calm-500 text-sm mt-1">{t.hurt.pageSubtitle}</p>
       </div>
+
+      {/* Weekly calendar */}
+      <WeekCalendar />
 
       {loadingData && (
         <p className="text-calm-400 animate-pulse text-sm">{t.loading}</p>
