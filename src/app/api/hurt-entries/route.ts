@@ -28,7 +28,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { text, writerId, targetId } = body;
+    const { text, writerId, targetId, reframe } = body;
 
     // Validate
     if (!text || typeof text !== 'string' || text.trim().length === 0) {
@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
     const entry = await prisma.hurtEntry.create({
       data: {
         text: text.trim(),
+        reframe: reframe?.trim() || null,
         writerId,
         targetId,
       },

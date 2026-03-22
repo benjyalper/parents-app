@@ -36,6 +36,7 @@ model Participant {
 model HurtEntry {
   id        String      @id @default(cuid())
   text      String      // Short message (≤ ~100 chars)
+  reframe   String?     // Optional user-edited reframe suggestion
   date      DateTime    @default(now())
   createdAt DateTime    @default(now())
 

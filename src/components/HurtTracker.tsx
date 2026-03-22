@@ -28,6 +28,7 @@ interface Participant {
 interface HurtEntry {
   id: string;
   text: string;
+  reframe: string | null;
   createdAt: string;
   writer: Participant;
   target: Participant;
@@ -129,7 +130,7 @@ export default function HurtTracker() {
       const res = await fetch('/api/hurt-entries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, writerId, targetId }),
+        body: JSON.stringify({ text, writerId, targetId, reframe: reframeText }),
       });
       if (!res.ok) {
         const err = await res.json();
@@ -366,7 +367,7 @@ export default function HurtTracker() {
                         {language === 'he' ? 'אפשר להגיד את זה ככה...' : 'You could say it like this...'}
                       </p>
                       <p className="text-xs text-primary-700 leading-relaxed">
-                        {getReframeSuggestion(entry.text, language)}
+                        {entry.reframe || getReframeSuggestion(entry.text, language)}
                       </p>
                     </div>
                   </div>
@@ -409,7 +410,7 @@ export default function HurtTracker() {
                 {language === 'he' ? 'אפשר להגיד את זה ככה...' : 'You could say it like this...'}
               </p>
               <p className="text-xs text-primary-700 leading-relaxed">
-                {getReframeSuggestion(selectedEntry.text, language)}
+                {selectedEntry.reframe || getReframeSuggestion(selectedEntry.text, language)}
               </p>
             </div>
 
