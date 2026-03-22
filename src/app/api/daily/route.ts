@@ -4,6 +4,8 @@
  * both deterministically selected based on today's date.
  */
 
+export const dynamic = 'force-dynamic';
+
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { pickForDay, todayDateString } from '@/lib/daily-selector';

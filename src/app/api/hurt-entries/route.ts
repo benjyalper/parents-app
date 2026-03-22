@@ -3,6 +3,8 @@
  * POST /api/hurt-entries  — create a new entry
  */
 
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { APP_CONFIG } from '@/config/app.config';
