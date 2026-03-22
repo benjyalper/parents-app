@@ -54,20 +54,21 @@ export default function HeroSection() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       dir={isRTL ? 'rtl' : 'ltr'}
     >
-      {/* Background image */}
-      {daily?.image ? (
-        <Image
-          src={daily.image.imageUrl}
-          alt={imageAlt}
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-      ) : (
-        // Fallback gradient when no image
-        <div className="absolute inset-0 bg-gradient-to-br from-calm-800 via-calm-700 to-warm-600" />
-      )}
+      {/* Background image
+          Priority order:
+          1. Daily image from DB (if set)
+          2. Local family-bg.jpg from /public (default background)
+          3. Gradient fallback (if image fails to load)
+          To change the background: replace /public/family-bg.jpg
+      */}
+      <Image
+        src={daily?.image?.imageUrl ?? '/family-bg.jpg'}
+        alt={imageAlt || 'רקע'}
+        fill
+        priority
+        className="object-cover"
+        sizes="100vw"
+      />
 
       {/* Dark overlay for readability */}
       <div className="absolute inset-0 bg-black/50" />
