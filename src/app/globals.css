@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f5f7fa; /* calm-50 */
+  color: #2c3c51;            /* calm-900 */
+  min-height: 100vh;
+}
+
+/* ── RTL helpers ──────────────────────────────────────────────── */
+[dir="rtl"] {
+  font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+}
+
+/* ── Custom scrollbar (subtle) ───────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #a8bfd6;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #799dbd;
+}
+
+/* ── Focus ring ──────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #5580a7;
+  outline-offset: 2px;
+}
+
+/* ── Typography ──────────────────────────────────────────────── */
+h1, h2, h3 {
+  line-height: 1.3;
+}

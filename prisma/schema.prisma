@@ -1,0 +1,85 @@
+// ============================================================
+// Prisma Schema — הורים כשותפים
+// ============================================================
+// To apply changes locally:   npx prisma migrate dev --name <name>
+// To apply in production:     npx prisma migrate deploy
+// To regenerate client:       npx prisma generate
+// To seed the database:       npm run db:seed
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Participants (the two people using this app) ─────────────
+model Participant {
+  id          String       @id @default(cuid())
+  name        String       // Display name (e.g. "Person A", "אבא", etc.)
+  label       String       @unique // Internal label: "personA" | "personB"
+  createdAt   DateTime     @default(now())
+
+  // Entries this participant wrote
+  writtenEntries  HurtEntry[]  @relation("WrittenBy")
+  // Entries written about this participant
+  receivedEntries HurtEntry[]  @relation("TargetOf")
+
+  // Boundary messages written by this participant
+  boundaryMessages BoundaryMessage[]
+}
+
+// ── Hurt Entries (נפגעתי ממך) ────────────────────────────────
+model HurtEntry {
+  id        String      @id @default(cuid())
+  text      String      // Short message (≤ ~100 chars)
+  date      DateTime    @default(now())
+  createdAt DateTime    @default(now())
+
+  writerId  String
+  writer    Participant @relation("WrittenBy", fields: [writerId], references: [id])
+
+  targetId  String
+  target    Participant @relation("TargetOf",  fields: [targetId], references: [id])
+
+  @@index([writerId])
+  @@index([targetId])
+}
+
+// ── Boundary Messages (גבולות) ───────────────────────────────
+model BoundaryMessage {
+  id        String      @id @default(cuid())
+  text      String
+  date      DateTime    @default(now())
+  createdAt DateTime    @default(now())
+
+  writerId  String
+  writer    Participant @relation(fields: [writerId], references: [id])
+
+  @@index([writerId])
+}
+
+// ── Daily Sayings ─────────────────────────────────────────────
+model Saying {
+  id        String   @id @default(cuid())
+  textHe    String   // Hebrew text
+  textEn    String   // English text
+  author    String?  // Optional attribution
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+// ── Daily Images ──────────────────────────────────────────────
+// For now, imageUrl holds an external URL (Unsplash placeholder).
+// Later, replace with Cloudinary or Supabase Storage URL.
+model DailyImage {
+  id          String   @id @default(cuid())
+  imageUrl    String   // External URL or future cloud URL
+  altTextHe   String?  // Hebrew alt text / caption
+  altTextEn   String?  // English alt text / caption
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
