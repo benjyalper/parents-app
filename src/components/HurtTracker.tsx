@@ -80,15 +80,8 @@ export default function HurtTracker() {
   const [formError, setFormError]   = useState('');
   const [formSuccess, setFormSuccess] = useState(false);
 
-  // Editable reframe suggestion — auto-updates when text changes, but user can edit it
+  // Editable reframe suggestion — user fills manually
   const [reframeText, setReframeText] = useState('');
-  useEffect(() => {
-    if (text.trim()) {
-      setReframeText(getReframeSuggestion(text, language));
-    } else {
-      setReframeText('');
-    }
-  }, [text, language]);
 
   // Modal state
   const [selectedEntry, setSelectedEntry] = useState<HurtEntry | null>(null);
