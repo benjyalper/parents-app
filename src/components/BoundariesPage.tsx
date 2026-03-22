@@ -191,7 +191,7 @@ export default function BoundariesPage() {
                     </div>
                     <button
                       onClick={async () => {
-                        if (!confirm(t.hurt?.confirmDelete ?? 'למחוק?')) return;
+                        if (!confirm('למחוק?')) return;
                         await fetch(`/api/boundaries/${msg.id}`, { method: 'DELETE' });
                         setMessages((prev) => prev.filter((m) => m.id !== msg.id));
                       }}
