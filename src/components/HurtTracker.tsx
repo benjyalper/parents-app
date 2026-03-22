@@ -265,9 +265,6 @@ export default function HurtTracker() {
                     rows={4}
                     className="flex-1 rounded-xl border border-calm-200 px-3 py-2 text-sm text-calm-800 resize-none focus:outline-none focus:ring-2 focus:ring-calm-400 bg-warm-50 placeholder:text-calm-300"
                   />
-                  <p className="text-xs text-calm-300 text-end">
-                    {text.length}/{APP_CONFIG.maxHurtEntryChars} {t.hurt.charCount}
-                  </p>
                 </div>
 
                 {/* Reframe suggestion — editable textarea */}
@@ -278,11 +275,7 @@ export default function HurtTracker() {
                   <textarea
                     value={reframeText}
                     onChange={(e) => setReframeText(e.target.value)}
-                    placeholder={
-                      language === 'he'
-                        ? 'הקלד כמה מילים ונציע ניסוח עדין יותר...'
-                        : "Start typing and we'll suggest a gentler way..."
-                    }
+                    placeholder={language === 'he' ? 'אפשר להגיד את זה ככה...' : 'You could say it like this...'}
                     rows={4}
                     className="flex-1 rounded-xl border border-primary-200 px-3 py-2 text-sm text-primary-700 leading-relaxed bg-primary-50 resize-none focus:outline-none focus:ring-2 focus:ring-primary-300 placeholder:text-primary-300"
                   />
