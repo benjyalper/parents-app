@@ -254,7 +254,7 @@ export default function HurtTracker() {
               </div>
 
               {/* Two-column layout: text field + reframe suggestion */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
                 {/* Text area */}
                 <div className="flex flex-col gap-1">
                   <label className="text-xs text-calm-500 font-medium">
@@ -266,7 +266,7 @@ export default function HurtTracker() {
                     placeholder={language === 'he' ? 'נפגעתי כשאמרת...' : 'I was hurt when you said...'}
                     maxLength={APP_CONFIG.maxHurtEntryChars}
                     rows={4}
-                    className="rounded-xl border border-calm-200 px-3 py-2 text-sm text-calm-800 resize-none focus:outline-none focus:ring-2 focus:ring-calm-400 bg-warm-50 placeholder:text-calm-300"
+                    className="flex-1 rounded-xl border border-calm-200 px-3 py-2 text-sm text-calm-800 resize-none focus:outline-none focus:ring-2 focus:ring-calm-400 bg-warm-50 placeholder:text-calm-300"
                   />
                   <p className="text-xs text-calm-300 text-end">
                     {text.length}/{APP_CONFIG.maxHurtEntryChars} {t.hurt.charCount}
@@ -274,10 +274,10 @@ export default function HurtTracker() {
                 </div>
 
                 {/* Reframe suggestion — editable textarea */}
-                <div className="bg-primary-50 border border-primary-100 rounded-xl p-4 flex flex-col gap-2">
-                  <p className="text-xs font-semibold text-primary-600">
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-primary-600 font-semibold">
                     {language === 'he' ? 'אפשר להגיד את זה ככה...' : 'You could say it like this...'}
-                  </p>
+                  </label>
                   <textarea
                     value={reframeText}
                     onChange={(e) => setReframeText(e.target.value)}
@@ -287,7 +287,7 @@ export default function HurtTracker() {
                         : "Start typing and we'll suggest a gentler way..."
                     }
                     rows={4}
-                    className="text-xs text-primary-700 leading-relaxed bg-transparent resize-none focus:outline-none focus:ring-1 focus:ring-primary-300 rounded-lg px-1 placeholder:text-primary-300 w-full"
+                    className="flex-1 rounded-xl border border-primary-200 px-3 py-2 text-sm text-primary-700 leading-relaxed bg-primary-50 resize-none focus:outline-none focus:ring-2 focus:ring-primary-300 placeholder:text-primary-300"
                   />
                 </div>
               </div>
