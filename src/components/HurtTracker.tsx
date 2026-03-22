@@ -329,27 +329,36 @@ export default function HurtTracker() {
                     className="grid grid-cols-1 md:grid-cols-2 gap-3 items-start"
                   >
                     {/* Entry card */}
-                    <button
-                      onClick={() => setSelectedEntry(entry)}
-                      className="
-                        w-full text-start bg-white rounded-xl shadow-soft px-5 py-4
-                        hover:shadow-card transition-shadow duration-150
-                        border border-transparent hover:border-calm-100
-                        group
-                      "
-                    >
+                    <div className="bg-white rounded-xl shadow-soft px-5 py-4 border border-transparent hover:border-calm-100 hover:shadow-card transition-shadow duration-150">
                       <div className="flex items-start gap-3">
                         <span className="w-3 h-3 rounded-full bg-red-400 mt-1.5 shrink-0" />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-calm-800 text-sm leading-snug line-clamp-2 group-hover:text-calm-900">
+                        <button
+                          onClick={() => setSelectedEntry(entry)}
+                          className="flex-1 min-w-0 text-start"
+                        >
+                          <p className="text-calm-800 text-sm leading-snug line-clamp-2 hover:text-calm-900">
                             {entry.text}
                           </p>
                           <p className="text-calm-400 text-xs mt-1">
                             {entry.writer.name} → {entry.target.name} · {formatDate(entry.createdAt)}
                           </p>
-                        </div>
+                        </button>
+                        {/* Delete button */}
+                        <button
+                          onClick={async () => {
+                            if (!confirm(language === 'he' ? 'למחוק את הרשומה?' : 'Delete this entry?')) return;
+                            await fetch(`/api/hurt-entries/${entry.id}`, { method: 'DELETE' });
+                            setEntries((prev) => prev.filter((e) => e.id !== entry.id));
+                          }}
+                          className="shrink-0 text-calm-300 hover:text-red-400 transition-colors duration-150 p-1"
+                          title={language === 'he' ? 'מחק' : 'Delete'}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
                       </div>
-                    </button>
+                    </div>
 
                     {/* Reframe suggestion */}
                     <div className="bg-primary-50 border border-primary-100 rounded-xl px-4 py-3">
